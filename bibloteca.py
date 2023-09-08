@@ -6,25 +6,63 @@ libros = []
 libros.append(l.libro1)
 libros.append(l.libro2)
 libros.append(l.libro3)
+
+#Función para ver un listado de los libros prestados
 def ejemplares_prestados():
-    # completar
+    sin_prestados = True
+    print("Listado de libros prestados:")
+    print("-----------------------------------")
+    for libro in libros:
+        if libro['cant_ej_pr'] > 0:
+            print("Título:", libro['titulo'])
+            print("Autor:", libro['autor'])
+            print("Ejemplares prestados:", libro['cant_ej_pr'])
+            print("-----------------------------------")
+            sin_prestados = False
+    if sin_prestados == True:
+        print("No hay libros prestados.")
     return None
 
+#Función para registrar un libro nuevo y agregarlo a la lista
 def registrar_nuevo_libro():
-    salirDelRegistro = 1
-    while salirDelRegistro == 1:
+    while True:
         add_book = l.nuevo_libro()
         libros.append(add_book)
-        nuevoIngreso = int(input("Desea ingresar un nuevo libro? 1. Si / 2. No"))
+        while True:
+            nuevoIngreso = int(input("Desea ingresar un nuevo libro? 1. Si / 2. No"))
+            if nuevoIngreso == 1 or nuevoIngreso == 2:
+                break   
+            else:
+                print("Opción inválida.")
         if nuevoIngreso == 2:
-            break   
-    #completar
+            break
+            
     return None
 
+#Función para eliminar un ejemplar de la lista
 def eliminar_ejemplar_libro():
-    codigoEliminar = (input("Ingrese el codigo del libro que desea eliminar"))
-    
-    #completar
+    buscar_codigo = (input("Ingrese el codigo del libro que desea eliminar"))
+    while True:
+        for libro in libros:
+            if buscar_codigo == libro.get('cod'):
+                print("Libro encontrado:")
+                print("Título:", libro['titulo'])
+                print("Autor:", libro['autor'])
+                print("Ejemplares disponibles:", libro['cant_ej_ad'])
+                while True:
+                    cant_eliminar = int(input("Cuántos ejemplares desea eliminar?"))
+                    if cant_eliminar < 0 or cant_eliminar > libro['cant_ej_ad']:
+                        print("Cantidad invalida")
+                    else:
+                        break
+                libro['cant_ej_ad'] -= cant_eliminar
+                print("Cantidad de ejemplares actualizada.")
+                print("Título:", libro['titulo'])
+                print("Autor:", libro['autor'])
+                print("Ejemplares disponibles: ", libro['cant_ej_ad'])
+        break
+    if buscar_codigo != libro.get('cod'):
+            print("Error: No existe el codigo ingresado.")
     return None
 
 def prestar_ejemplar_libro():
@@ -41,8 +79,8 @@ def prestar_ejemplar_libro():
                     print("Ejemplares disponibles:", libro['cant_ej_ad'])
                     while True:
                         nuevo_prestamo = int(input("Ingrese la cantidad de ejemplares a prestar:"))
-                        if nuevo_prestamo > libro['cant_ej_ad']:
-                            print("No hay suficiente stock, ingrese una nueva cantidad.")
+                        if nuevo_prestamo < 0 or nuevo_prestamo > libro['cant_ej_ad']:
+                            print("Error: Cantidad inválida.")
                         else:
                             libro['cant_ej_pr'] += nuevo_prestamo
                             libro['cant_ej_ad'] -= nuevo_prestamo
@@ -58,6 +96,7 @@ def prestar_ejemplar_libro():
             print("Error: No existe el codigo ingresado.")
     return None
 
+#Función para devolver un ejemplar prestado a la lista
 def devolver_ejemplar_libro():
     buscar_codigo = input("Ingrese el codigo del libro a consultar:")
     while True:
@@ -70,7 +109,7 @@ def devolver_ejemplar_libro():
                 if libro['cant_ej_pr'] > 0:
                     while True:
                         devolucion = int(input("Cuantos ejemplares desea devolver?"))
-                        if devolucion > libro['cant_ej_pr']:
+                        if devolucion < 0 or devolucion > libro['cant_ej_pr']:
                             print("Error: cantidad inválida.")
                         else:
                             libro['cant_ej_pr'] -= devolucion
@@ -88,12 +127,13 @@ def devolver_ejemplar_libro():
                 
     return None
 
-def mostrar_libros():
-    for libro in libros:
-        print("-------------------------------------------")
-        print("Codigo:", libro['cod'])
-        print("Titulo:", libro['titulo'])
-        print("Autor:", libro['autor'])
-        print("Cantidad de ejemplares adquiridos:", libro['cant_ej_ad'])
-        print("Cantidad de ejemplares prestados:", libro['cant_ej_pr'])    
-    return None
+#Función para mostrar los libros de la lista (no solicitada) 
+#def mostrar_libros(): 
+    #for libro in libros:
+        #print("-----------------------------------")
+        #print("Codigo:", libro['cod'])
+        #print("Titulo:", libro['titulo'])
+        #print("Autor:", libro['autor'])
+        #print("Cantidad de ejemplares adquiridos:", libro['cant_ej_ad'])
+        #print("Cantidad de ejemplares prestados:", libro['cant_ej_pr'])    
+    #return None
