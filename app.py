@@ -21,21 +21,18 @@ while respuesta != "salir":
     if opt.isnumeric():
         if int(opt) == 1:
             bibloteca.prestar_ejemplar_libro()
-            #completar
             print()
         elif int(opt) == 2:
             bibloteca.devolver_ejemplar_libro()
-            #completar
             print()
         elif int(opt) == 3:
             bibloteca.registrar_nuevo_libro()
-            #completar
             print()
         elif int(opt) == 4:
-            #completar
+            bibloteca.eliminar_ejemplar_libro()
             print()
         elif int(opt) == 5:
-            #completar
+            bibloteca.ejemplares_prestados()
             print()
         elif int(opt) == 6:
             respuesta = "salir"
